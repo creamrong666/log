@@ -17,7 +17,7 @@ public class log {
 	private static final String e = "ERROR";
 	private static final String f = "FATAL";
 	private static final String c = "CRITICAL";
-	private static final String a = "com.sinovatech.myservice.action.MyServiceParamAction";
+	private static final String a = "com.sinovatech.myservice.service.PointFileProcessor ";
 	private static final String b = "send_data_to_cas.py";
 	private static final DateFormat Java_Date_Format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
 	private static final DateFormat Python_Date_Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
@@ -91,7 +91,7 @@ public class log {
         		  
         		  str2 = sb.toString();
         		  List1.add(str2);
-        		  System.out.println(List1);
+        		  
         		 }
         	   if(str2.contains(f) == true && str2.contains(a) == true) {
          		  String level = str2.substring(1,str2.indexOf("]")).trim();
@@ -113,14 +113,27 @@ public class log {
          		  List1.add(str2);
            } 
         	   if(str2.contains(e) == true && str2.contains(b) == true) {
-          		  String level = str2.substring(str2.indexOf(" E"),str2.indexOf("R ")).trim();
-          	   
-          		  String time =str2.substring(0, str2.indexOf("s"));
+        		   
+        		   String level = str2.substring(str2.indexOf("E"),str2.indexOf("C")-1).trim();
+//             		System.out.println(level);
+        		   
+        		   
+        		   
+        		   String time =str2.substring(0, str2.indexOf("s"));
+        		   Date strDate = Python_Date_Format.parse(time);
+           		  String date = Output_Date_Format.format(strDate);
+//                  System.out.println(date);
+           		
+           		  
+           		  
+           		  String ny = str2.substring(str2.indexOf(b));
+           		  String ny1 = ny.replaceAll(": ERROR","-").trim();
+//           		  System.out.println(ny);
+//           		  System.out.println(ny1);
           		  
-          		  Date strDate = Python_Date_Format.parse(time);
-          		  String date = Output_Date_Format.format(strDate);
-          		  String ny = str2.substring(str2.indexOf(b));
-          		  String ny1 = str2.replaceAll(": ERROR","").trim();
+          		  
+          		  
+          		  
           		  
           		  StringBuilder sb = new StringBuilder();
           		  sb.append(level);
@@ -131,32 +144,47 @@ public class log {
           		  
           		  str2 = sb.toString();
           		  List1.add(str2);
+//          		System.out.println(str2);
            } 
         	   if(str2.contains(f) == true && str2.contains(b) == true) {
-          		  String level = str2.substring(str2.indexOf("F"),str2.indexOf("L ")+1).trim();
-             	   
+          		  String level = str2.substring(str2.indexOf("F"),str2.indexOf("L")+1).trim();
+//          		      System.out.println(level);
+          		      
+          		      
+          		      
              		  String time =str2.substring(0, str2.indexOf("s"));
-             		  
              		  Date strDate = Python_Date_Format.parse(time);
              		  String date = Output_Date_Format.format(strDate);
+//             		  System.out.println(date);
+             		  
+             		  
+             		  
+             		  
              		  String ny = str2.substring(str2.indexOf(b));
-             		  String ny1 = str2.replaceAll(": FATAL","").trim();
+             		  String ny1 = ny.replaceAll(": FATAL","-").trim();
+//             		  System.out.println(ny1);
+             		 
           		  
           		  StringBuilder sb = new StringBuilder();
           		  sb.append(level);
           		  sb.append("-");
           		  sb.append(date);
           		  sb.append("-");
-          		  sb.append(ny);
+          		  sb.append(ny1);
+          		  
           		  
           		  str2 = sb.toString();
           		  List1.add(str2);
+//          		System.out.println(str2);
+//          		System.out.println(List1);
         	   }
         	   }  
            for(int i = 1; i < List1.size(); i++) {
         	   for(int j = 0; j<List1.size()-1;j++) {
-        		   String a = List1.get(j).substring(6, 24);
-        		   String b = List1.get(j+1).substring(6, 24);
+        		   String a = List1.get(j).substring(6, 23);
+//        		   System.out.println(a);
+        		   String b = List1.get(j+1).substring(6, 23);
+//        		   System.out.println(b);
         		   if(a.compareTo(b)>0) {
         			   String aa = List1.get(j);
         			   String bb = List1.get(j+1);
